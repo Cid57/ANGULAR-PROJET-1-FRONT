@@ -32,9 +32,16 @@
         @if(formulaire.get('prix')?.hasError('min')){
         <mat-error>Le prix doit être positif</mat-error>
         }
-
     </mat-form-field>
 
+    <div class="d-flex align-items-center mb-4">
+        <input #inputFile type="file" style="display: none" (change)="onSelectionFichier($event)">
+        <button mat-mini-fab color="primary" type="button" (click)="inputFile.click()">
+            <mat-icon>attach_file</mat-icon>
+        </button>
+        <span class="ms-2">{{ fichierSelectionne ? fichierSelectionne.name : "Aucun fichier sélectionnner"}}</span>
+    </div>
 
-    <button mat-raised-button color="primary">Ajouter l'article</button>
+
+    <button mat-raised-button color="primary">{{idProduit ? "Modifier le produit" : "Ajouter le produit"}}</button>
 </form>
