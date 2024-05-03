@@ -2,36 +2,35 @@
 
     <button routerLink="/ajout-produit" mat-raised-button color="primary" class="mt-4">
         <mat-icon fontIcon="add"></mat-icon>
-        AJOUTER UN NOUVEAU PRODUIT
+        Ajouter un nouveau produit
     </button>
 
-
     <div class="row">
-
         @for (produit of listeProduit; track $index) {
 
         <div class="col-6 mt-4">
-
             <mat-card class="example-card">
                 <mat-card-header>
                     <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title> {{produit.nom}} </mat-card-title>
+                    <mat-card-title>{{ produit.nom }}</mat-card-title>
                     <mat-card-subtitle>Dog Breed</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src={{produit.image}} style="object-fit: cover; height: 300px;" alt="cafe" />
+                <img mat-card-image src="http://projet-angular/uploads/{{ produit.image }}"
+                    style="object-fit: cover; height: 300px" />
                 <mat-card-content>
                     <p>
-                        {{produit.description}}
+                        {{ produit.description }}
                     </p>
                 </mat-card-content>
                 <mat-card-actions>
                     <button mat-raised-button color="accent" [routerLink]="['/modifier-produit',produit.id]">
                         <mat-icon fontIcon="edit"></mat-icon>
-                        MODIFIER
+                        Modifier
                     </button>
                     <button mat-raised-button color="warn" class="ms-2" (click)="onClickSupprime(produit.id)">
                         <mat-icon fontIcon="delete"></mat-icon>
-                        SUPPRIMER</button>
+                        Supprimer
+                    </button>
                 </mat-card-actions>
             </mat-card>
         </div>

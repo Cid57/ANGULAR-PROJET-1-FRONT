@@ -1,20 +1,15 @@
 <form class="formulaire m-4" [formGroup]="formulaire" (ngSubmit)="onAjoutProduit()">
-
     <mat-form-field>
         <mat-label>Nom</mat-label>
-        <input matInput type="text" placeholder="Ex. Expresso" formControlName="nom">
+        <input matInput type="text" placeholder="Ex. Expresso" formControlName="nom" />
 
         @if(formulaire.get('nom')?.hasError('required')){
         <mat-error>Le champs est requis</mat-error>
-        }
-        @if(formulaire.get('nom')?.hasError('minlength')){
-        <mat-error>Le nom doit avoir au minimus 3 caractères</mat-error>
-        }
-        @if(formulaire.get('nom')?.hasError('maxlength')){
+        } @if(formulaire.get('nom')?.hasError('minlength')){
+        <mat-error>Le nom doit avoir au minimum 3 caractères</mat-error>
+        } @if(formulaire.get('nom')?.hasError('maxlength')){
         <mat-error>Le nom doit avoir au maximum 100 caractères</mat-error>
         }
-
-
     </mat-form-field>
 
     <mat-form-field>
@@ -24,24 +19,35 @@
 
     <mat-form-field>
         <mat-label>Prix</mat-label>
-        <input matInput type="number" min="0" formControlName="prix">
+        <input matInput type="number" min="0" formControlName="prix" />
 
         @if(formulaire.get('prix')?.hasError('required')){
         <mat-error>Le champs est requis</mat-error>
-        }
-        @if(formulaire.get('prix')?.hasError('min')){
+        } @if(formulaire.get('prix')?.hasError('min')){
         <mat-error>Le prix doit être positif</mat-error>
         }
     </mat-form-field>
 
     <div class="d-flex align-items-center mb-4">
-        <input #inputFile type="file" style="display: none" (change)="onSelectionFichier($event)">
+        <input #inputFile type="file" style="display: none" (change)="onSelectionFichier($event)" />
+
+        @if(imageExistanteBdd != null && imageExistanteBdd != '' && !suppressionImageExistanteBdd) {
+
+        <img src="http://projet-angular/uploads/{{ imageExistanteBdd }}" style="object-fit: cover; height: 80px">
+
+        <button mat-mini-fab color="warn" type="button" (click)="onSuppressionImage()">
+            <mat-icon>delete</mat-icon>
+        </button>
+        }
+
         <button mat-mini-fab color="primary" type="button" (click)="inputFile.click()">
             <mat-icon>attach_file</mat-icon>
         </button>
-        <span class="ms-2">{{ fichierSelectionne ? fichierSelectionne.name : "Aucun fichier sélectionnner"}}</span>
+
+        <span class="ms-2">{{ fichierSelectionne ? fichierSelectionne.name : "Aucun fichier selectionné"}}</span>
     </div>
 
-
-    <button mat-raised-button color="primary">{{idProduit ? "Modifier le produit" : "Ajouter le produit"}}</button>
+    <button mat-raised-button color="primary">
+        {{ idProduit ? "Modifier le produit" : "Ajouter le produit" }}
+    </button>
 </form>
