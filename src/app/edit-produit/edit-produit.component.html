@@ -28,13 +28,23 @@
         }
     </mat-form-field>
 
+
+    @if(miniature) {
+
+    <img [src]="miniature" style="object-fit: cover; height: 80px">
+
+    }@else if (imageExistanteBdd != null && imageExistanteBdd != '' && !suppressionImageExistanteBdd) {
+
+    <img src="http://angular-projet-1/uploads/{{ imageExistanteBdd }}" style="object-fit: cover; height: 80px">
+
+    }
+
     <div class="d-flex align-items-center mb-4">
         <input #inputFile type="file" style="display: none" (change)="onSelectionFichier($event)" />
 
-        @if(imageExistanteBdd != null && imageExistanteBdd != '' && !suppressionImageExistanteBdd) {
 
-        <img src="http://projet-angular/uploads/{{ imageExistanteBdd }}" style="object-fit: cover; height: 80px">
 
+        @if(miniature || (imageExistanteBdd != null && imageExistanteBdd != '' && !suppressionImageExistanteBdd)) {
         <button mat-mini-fab color="warn" type="button" (click)="onSuppressionImage()">
             <mat-icon>delete</mat-icon>
         </button>
