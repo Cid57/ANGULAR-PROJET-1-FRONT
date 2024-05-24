@@ -6,6 +6,8 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { AuthentificationService } from './authentification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,27 @@ export class AppComponent {
   texteRecherche: string = '';
 
   router: Router = inject(Router);
+  authentification: AuthentificationService = inject(AuthentificationService);
+  snackBar: MatSnackBar = inject(MatSnackBar);
+
+  ngOnInit() {
+    this.authentification.getInfoFromJwtLocalStorage();
+  }
 
   onRecherche() {
     this.router.navigate(['/accueil', this.texteRecherche]);
+  }
+
+  onDeconnexion() {
+    localStorage.removeItem('jwt');
+
+    this.authentification.connecte = false;
+
+    this.snackBar.open('Vous êtes deconnecté', undefined, {
+      panelClass: 'snack-bar-valid',
+      duration: 3000,
+    });
+
+    this.router.navigateByUrl('/connexion');
   }
 }

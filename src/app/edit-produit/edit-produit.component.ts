@@ -10,6 +10,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -45,7 +46,7 @@ export class EditProduitComponent {
         this.idProduit = parametres['id'];
 
         this.http
-          .get(`http://angular-projet-1/produit.php?id=${this.idProduit}`)
+          .get(`http://projet-angular/produit.php?id=${this.idProduit}`)
           .subscribe((produit: any) => {
             this.formulaire.patchValue(produit);
             this.imageExistanteBdd = produit.image;
@@ -64,6 +65,8 @@ export class EditProduitComponent {
   });
 
   fichierSelectionne: File | null = null;
+
+  snackBar: MatSnackBar = inject(MatSnackBar);
 
   onAjoutProduit() {
     //si l'utiisateur est connecté
@@ -84,14 +87,26 @@ export class EditProduitComponent {
 
       if (this.formulaire.valid) {
         const url: string = this.idProduit
-          ? `http://angular-projet-1/modifier-produit.php?id=${this.idProduit}`
-          : 'http://angular-projet-1/ajout-produit.php';
+          ? `http://projet-angular/modifier-produit.php?id=${this.idProduit}`
+          : 'http:/projet-angular/ajout-produit.php';
 
         this.http
           .post(url, data, {
             headers: { Authorization: jwt },
           })
-          .subscribe((resultat) => this.router.navigateByUrl('/accueil'));
+          .subscribe((resultat) => {
+            this.snackBar.open(
+              this.idProduit
+                ? 'Le produit a été modifié'
+                : 'Le produit a été ajouté',
+              undefined,
+              {
+                panelClass: 'snack-bar-valid',
+                duration: 3000,
+              }
+            );
+            this.router.navigateByUrl('/accueil');
+          });
       }
     }
   }
